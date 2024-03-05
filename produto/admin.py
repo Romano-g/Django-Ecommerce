@@ -1,21 +1,23 @@
 from django.contrib import admin
-from produto.models import Produto, Variacao
+from produto.forms import VariacaoObrigatoria
+from . import models
 
 
-class VariacaoInLine(admin.TabularInline):
-    model = Variacao
-    extra = 2
+class VariacaoInline(admin.TabularInline):
+    model = models.Variacao
+    formset = VariacaoObrigatoria
+    min_num = 1
+    extra = 0
+    can_delete = True
 
 
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = (
-        'nome', 'descricao_curta', 'get_preco_formatado',
-        'get_preco_formatado_promo',
-    )
+    list_display = ['nome', 'descricao_curta',
+                    'get_preco_formatado', 'get_preco_promocional_formatado']
     inlines = [
-        VariacaoInLine
+        VariacaoInline
     ]
 
 
-admin.site.register(Produto, ProdutoAdmin)
-admin.site.register(Variacao)
+admin.site.register(models.Produto, ProdutoAdmin)
+admin.site.register(models.Variacao)

@@ -1,17 +1,17 @@
 from django.contrib import admin
-from pedido.models import Pedido, ItemPedido
+from . import models
 
 
-class ItemPedidoInLine(admin.TabularInline):
-    model = ItemPedido
+class ItemPedidoInline(admin.TabularInline):
+    model = models.ItemPedido
     extra = 1
 
 
 class PedidoAdmin(admin.ModelAdmin):
     inlines = [
-        ItemPedidoInLine,
+        ItemPedidoInline
     ]
 
 
-admin.site.register(Pedido, PedidoAdmin)
-admin.site.register(ItemPedido)
+admin.site.register(models.Pedido, PedidoAdmin)
+admin.site.register(models.ItemPedido)
